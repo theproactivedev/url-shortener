@@ -5,6 +5,7 @@ body {
 	font-size: 16px;
 /* 	background-color: #000; */
   padding-top: 40px;
+  text-align: center;
 }
 
 
@@ -13,8 +14,11 @@ h1 {
   font-size: 25px;
 }
 
-.footer {
-	margin-top: 60px;
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 ol {
