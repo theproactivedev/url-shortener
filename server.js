@@ -9,7 +9,11 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
+var cors = require("cors");
+var mongoose = require("mongoose");
 
+app.use(bodyParser.json());
+app.use(cors());
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -38,7 +42,15 @@ app.route('/_api/package.json')
 app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
-    })
+    });
+
+app.route("/new/:urlToShorten(*)")
+  .get(function(req, res) {
+  
+  var url = req.params.urlToShorten;
+  
+  
+});
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
