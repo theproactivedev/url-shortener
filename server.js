@@ -16,6 +16,8 @@ var shortURL = require("./models/shortURL");
 app.use(bodyParser.json());
 app.use(cors());
 
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/shortURL");
+
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
     var allowedOrigins = ['https://narrow-plane.gomix.me', 'https://www.freecodecamp.com'];
