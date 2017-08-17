@@ -49,6 +49,9 @@ app.route("/new/:urlToShorten(*)")
   
   var url = req.params.urlToShorten;
   
+  res.json({
+    originalURL: 
+  })
   
 });
 
