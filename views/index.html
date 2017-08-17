@@ -22,12 +22,15 @@
         <form action="">
           <div class="row" ng-controller="shortenURLCtrl">
             <div class="col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+  
               <div class="input-group input-group-lg">
                 <input type="text" class="form-control" placeholder="https://google.com" ng-model="urlToShorten">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button">Shorten URL</button>
+                  <a class="btn btn-primary" type="button" ng-href="/new/{{urlToShorten}}">Shorten URL</a>
                 </span>
               </div><!-- /input-group -->
+              
+              {{urlToShorten}}
             </div><!-- /.col-lg-6 -->
           </div>
         </form>
