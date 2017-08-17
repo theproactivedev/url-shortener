@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://idontknow/todo.git"
+    "url": "https://github.com/theproactivedev/url-shortener.git"
   },
   "description": "This app shortens a URL using HTML, CSS, JavaScript, NodeJS, ExpressJS and MongoDB.",
   "version": "1.0.0",
