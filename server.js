@@ -10,14 +10,14 @@ var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
 var cors = require("cors");
-var mongoose = require("mongoose");
-var shortURL = require("./models/shortURL");
+var mongodb = require("mongodb");
+var MongoClient = mongodb.MongoClient;
+
+var dbURL = ""
 
 app.use(bodyParser.json());
 app.use(cors());
 app.set('json spaces', 2);
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/shortURL");
 
 if (!process.env.DISABLE_XORIGIN) {
   app.use(function(req, res, next) {
@@ -64,24 +64,40 @@ app.route("/new/:urlToShorten(*)")
     var short = Math.floor(Math.random() * 100000).toString();
     shortenedURL = short;
     
-    var data = new shortURL({
-      originalURL : url,
-      shortURL : shortenedURL
-    });
+//     var data = new shortURL({
+//       originalURL : url,
+//       shortURL : shortenedURL
+//     });
 
-    data.save(function(err) {
-      if (err) return res.send("Error saving your data.");
-    });
+//     data.save(function(err) {
+//       if (err) return res.send("Error saving your data.");
+//     });
     
-    output = data;
+//     output = data;
     
   } else {
-    shortURL = "Invalid URL";
-    output = {
-      originalURL : url,
-      shortURL : shortURL
-    }
+    // shortURL = "Invalid URL";
+    // output = {
+    //   originalURL : url,
+    //   shortURL : shortURL
+    // }
   }
+  
+  
+  var dbLink = "mongodb://username:password@ds01316.mlab.com:1316/shorturl";
+  
+  MongoClient.connect(, function (err, db) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      console.log('Connection established to', url);
+
+      // do some work here with the database.
+
+      //Close connection
+      db.close();
+    }
+  });
   
 
   
