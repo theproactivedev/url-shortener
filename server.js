@@ -59,7 +59,12 @@ app.route("/new/:urlToShorten(*)")
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
-      console.log('Connection established to', url);
+      
+      db.createCollection("sites", {
+        capped: true,
+        size: 5242880,
+        max: 5000
+      });
 
       // do some work here with the database.
       var shortenedURL = "";
