@@ -79,31 +79,33 @@ app.route("/new/:urlToShorten(*)")
         var short = Math.floor(Math.random() * 100000).toString();
         shortenedURL = short;
 
-    //     var data = new shortURL({
-    //       originalURL : url,
-    //       shortURL : shortenedURL
-    //     });
+        var data = {
+          originalURL : url,
+          shortURL : shortenedURL
+        };
 
-    //     data.save(function(err) {
-    //       if (err) return res.send("Error saving your data.");
-    //     });
+        var sites = db.collection("sites");
+        sites.save(data, function(err, result) {
+          if (err) {
+            console.log("Error trying to save your data.");
+          }
+        });
 
-    //     output = data;
+        output = data;
 
       } else {
-        // shortURL = "Invalid URL";
-        // output = {
-      //   originalURL : url,
-      //   shortURL : shortURL
-      // }
-    }
+        shortenedURL = "Invalid URL";
+        output = {
+          originalURL : url,
+          shortURL : shortenedURL
+        };
+      }  
 
+      res.json(output);
       //Close connection
       db.close();
-    }
+    }  
   });
-
-  res.json(output);
   
 });
 
