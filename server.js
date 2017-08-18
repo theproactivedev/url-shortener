@@ -64,20 +64,28 @@ app.route("/new/:urlToShorten(*)")
     var short = Math.floor(Math.random() * 100000).toString();
     shortURL = short;
     
+    var data = new shortURL({
+      originalURL : url,
+      shortURL : shortURL
+    });
+
+    data.save(function(err) {
+      if (err) return res.send("Error saving your data.");
+    });
+    
+    output = data;
+    
   } else {
     shortURL = null;
+    output = {
+      originalURL : url,
+      shortURL : shortURL
+    }
   }
   
-  var data = new shortURL({
-    originalURL : url,
-    shortURL : shortURL
-  });
+
   
-  data.save(function(err) {
-    if (err) return res.send("Error saving your data.");
-  });
-  
-  res.json(data);
+  res.json(output);
   
 });
 
