@@ -87,7 +87,7 @@ app.route("/new/:urlToShorten(*)")
     var url = req.params.urlToShorten;
 
     if (isURLValid(url)) {
-      shortenedURL = getRandomNumber();
+      shortenedURL = "https://eirin.g/" + getRandomNumber();
       
       output = {
         originalURL : url,
