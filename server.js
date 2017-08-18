@@ -48,63 +48,72 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     });
 
+
+function isURLValid(url) {
+  
+  // Regex from https://gist.github.com/dperini/729294
+  var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+  
+  if (regex.test(url)) {
+    return true;
+  }
+  
+  return false;
+}
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * 100000).toString();
+}
+
 app.route("/new/:urlToShorten(*)")
   .get(function(req, res) {
   
   
   var output = {};
-  var dbLink = "mongodb://admin_eirin:$h0rtur|@ds01316.mlab.com:1316/shorturl";
+  var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
   
   MongoClient.connect(dbLink, function (err, db) {
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
-    } else {
+    }
       
-      db.createCollection("sites", {
-        capped: true,
-        size: 5242880,
-        max: 5000
+    db.createCollection("sites", {
+      capped: true,
+      size: 5242880,
+      max: 5000
+    });
+
+    var shortenedURL = "";
+    var url = req.params.urlToShorten;
+
+    if (isURLValid(url)) {
+      shortenedURL = getRandomNumber();
+      
+      output = {
+        originalURL : url,
+        shortURL : shortenedURL
+      };
+
+      var sites = db.collection("sites");
+      
+      sites.save(output, function(err, result) {
+        if (err) {
+          console.log("Error trying to save your data.");
+        }
       });
 
-      // do some work here with the database.
-      var shortenedURL = "";
-      var url = req.params.urlToShorten;
-
-      // Checks to see if it is an actual url
-      // Regex from https://gist.github.com/dperini/729294
-      var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-
-
-      if (regex.test(url)) {
-        var short = Math.floor(Math.random() * 100000).toString();
-        shortenedURL = short;
-
-        var data = {
-          originalURL : url,
-          shortURL : shortenedURL
-        };
-
-        var sites = db.collection("sites");
-        sites.save(data, function(err, result) {
-          if (err) {
-            console.log("Error trying to save your data.");
-          }
-        });
-
-        output = data;
-
-      } else {
-        shortenedURL = "Invalid URL";
-        output = {
-          originalURL : url,
-          shortURL : shortenedURL
-        };
-      }  
-
-      res.json(output);
-      //Close connection
-      db.close();
+    } else {
+      shortenedURL = "Invalid URL";
+      output = {
+        originalURL : url,
+        shortURL : shortenedURL
+      };
     }  
+
+    res.json(output);
+    //Close connection
+    db.close();
+    
   });
   
 });
