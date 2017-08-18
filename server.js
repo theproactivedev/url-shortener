@@ -52,7 +52,7 @@ app.route("/new/:urlToShorten(*)")
   .get(function(req, res) {
   
   var output = {};
-  var shortURL = "";
+  var shortenedURL = "";
   var url = req.params.urlToShorten;
   
   // Checks to see if it is an actual url
@@ -62,11 +62,11 @@ app.route("/new/:urlToShorten(*)")
   
   if (regex.test(url)) {
     var short = Math.floor(Math.random() * 100000).toString();
-    shortURL = short;
+    shortenedURL = short;
     
     var data = new shortURL({
       originalURL : url,
-      shortURL : shortURL
+      shortURL : shortenedURL
     });
 
     data.save(function(err) {
