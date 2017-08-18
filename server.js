@@ -15,8 +15,7 @@ var shortURL = require("./models/shortURL");
 
 app.use(bodyParser.json());
 app.use(cors());
-
-
+app.set('json spaces', 2);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/shortURL");
 
@@ -53,6 +52,16 @@ app.route("/new/:urlToShorten(*)")
   .get(function(req, res) {
   
   var url = req.params.urlToShorten;
+  
+  function isUrlValid(userInput) {
+    var res = userInput.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    if(res == null)
+        return false;
+    else
+        return true;
+}
+  
+  
   
   res.json({
     originalURL: url
