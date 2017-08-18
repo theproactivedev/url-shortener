@@ -76,7 +76,7 @@ app.route("/new/:urlToShorten(*)")
     output = data;
     
   } else {
-    shortURL = null;
+    shortURL = "Invalid URL";
     output = {
       originalURL : url,
       shortURL : shortURL
