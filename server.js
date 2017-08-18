@@ -60,6 +60,7 @@ app.route("/new/:urlToShorten(*)")
     
   
   if (regex.test(url)) {
+    
     finalURL = url;
   } else {
     finalURL = null;
