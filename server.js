@@ -51,7 +51,8 @@ app.route('/')
 app.route("/new/:urlToShorten(*)")
   .get(function(req, res) {
   
-  var finalURL = "";
+  var output = {};
+  var shortURL = "";
   var url = req.params.urlToShorten;
   
   // Checks to see if it is an actual url
@@ -60,15 +61,23 @@ app.route("/new/:urlToShorten(*)")
     
   
   if (regex.test(url)) {
+    var short = Math.floor(Math.random() * 100000).toString();
+    shortURL = short;
     
-    finalURL = url;
   } else {
-    finalURL = null;
+    shortURL = null;
   }
   
-  res.json({
-    originalURL : finalURL
+  var data = new shortURL({
+    originalURL : url,
+    shortURL : shortURL
   });
+  
+  data.save(function(err) {
+    if (err) return res.send("Error saving your data.");
+  });
+  
+  res.json(data);
   
 });
 
