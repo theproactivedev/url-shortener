@@ -48,6 +48,10 @@ app.route('/')
 		  res.sendFile(process.cwd() + '/views/index.html');
     });
 
+app.get("/:codeString", function(req, res) {
+  res.send("Hi");
+});
+
 
 function isURLValid(url) {
   
