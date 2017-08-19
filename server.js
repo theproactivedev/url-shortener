@@ -53,22 +53,29 @@ app.get("/:codeString", function(req, res) {
   var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
   var requestURL = req.params.codeString;
   
-  MongodClient.connect(dbLink, function(err, db) {
+  MongoClient.connect(dbLink, function(err, db) {
     if (err) {
       console.log("Error trying to load data");
     }
     
     var sites = db.collection("sites");
     
-    sites.find({
+    sites.findOne({
       shortURL : requestURL
-    }).toArray(function(err, documents) {
+    }, function(err, data) {
+      if (err) {
+        console.log("Error trying to find data");
+        throw err;
+      }
       
-    })
+      if (data) {
+        res.redirect(data.originalURL);
+      } else {
+          res.send("Hi! I'm sorry this URL is not stored in our database.");
+      }
+    });
     
   });
-  
-  res.send("Hi");
   
   
 });
