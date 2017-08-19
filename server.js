@@ -51,6 +51,7 @@ app.route('/')
 app.get("/:codeString", function(req, res) {
   
   var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
+  var requestURL = req.params.codeString;
   
   MongodClient.connect(dbLink, function(err, db) {
     if (err) {
@@ -60,7 +61,9 @@ app.get("/:codeString", function(req, res) {
     var sites = db.collection("sites");
     
     sites.find({
-      shortURL : 
+      shortURL : requestURL
+    }).toArray(function(err, documents) {
+      
     })
     
   });
