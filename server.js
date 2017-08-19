@@ -50,6 +50,8 @@ app.route('/')
 
 app.get("/:codeString", function(req, res) {
   res.send("Hi");
+  
+  
 });
 
 
