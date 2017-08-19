@@ -80,7 +80,7 @@ app.get("/:codeString", function(req, res) {
       }
       
       if (data) {
-        res.redirect(data.originalURL);
+        res.redirect(301, data.originalURL);
       } else {
           res.send("Hi! I'm sorry this URL is not stored in our database.");
       }
