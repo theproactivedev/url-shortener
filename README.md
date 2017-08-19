@@ -1,5 +1,5 @@
 # Backend Challenges boilerplate - package.json
 
-This is an app that generates a short URL from the URL you have.
+This is an app that generates a short URL for the long URL you have.
 
-Just enter it in the text field and click "Shorten URL". And you'll be redirected to another page containing JSON.
+It's built with HTML, CSS, JavaScript, NodeJS and MongoDB. I also used frameworks and libraries like Bootstrap, AngularJS and ExpressJS.
