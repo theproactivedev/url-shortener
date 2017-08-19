@@ -63,6 +63,7 @@ app.route('/')
 app.get("/:codeString", function(req, res) {
   
   var requestURL = req.params.codeString;
+  console.log(requestURL);
   
   MongoClient.connect(dbLink, function(err, db) {
     if (err) {
