@@ -73,7 +73,7 @@ app.get("/:codeString", function(req, res) {
     var sites = db.collection("sites");
     
     sites.findOne({
-      shortURL : requestURL
+      shortURL : "https://actually-note.glitch.me/" + requestURL
     }, function(err, data) {
       if (err) {
         console.log("Error trying to find data");
