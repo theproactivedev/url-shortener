@@ -13,7 +13,21 @@ var cors = require("cors");
 var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 
-var dbURL = ""
+var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
+
+MongoClient.connect(dbLink, function(err, db) {
+  
+  
+  db.createCollection("sites", {
+    capped: true,
+    size: 5242880,
+    max: 5000
+  });
+  
+  
+});
+
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -107,12 +121,6 @@ app.get("/new/:urlToShorten(*)", function(req, res) {
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     }
-      
-    db.createCollection("sites", {
-      capped: true,
-      size: 5242880,
-      max: 5000
-    });
 
     var shortenedURL = "";
     var url = req.params.urlToShorten;
