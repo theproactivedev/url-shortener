@@ -65,8 +65,7 @@ function getRandomNumber() {
   return Math.floor(Math.random() * 100000).toString();
 }
 
-app.route("/new/:urlToShorten(*)")
-  .get(function(req, res) {
+app.get("/new/:urlToShorten(*)", function(req, res) {
   
   
   var output = {};
