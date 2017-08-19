@@ -50,7 +50,20 @@ app.route('/')
 
 app.get("/:codeString", function(req, res) {
   
+  var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
   
+  MongodClient.connect(dbLink, function(err, db) {
+    if (err) {
+      console.log("Error trying to load data");
+    }
+    
+    var sites = db.collection("sites");
+    
+    sites.find({
+      shortURL : 
+    })
+    
+  });
   
   res.send("Hi");
   
