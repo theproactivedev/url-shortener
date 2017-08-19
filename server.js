@@ -17,13 +17,11 @@ var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
 
 MongoClient.connect(dbLink, function(err, db) {
   
-  
   db.createCollection("sites", {
     capped: true,
     size: 5242880,
     max: 5000
   });
-  
   
 });
 
@@ -64,7 +62,6 @@ app.route('/')
 
 app.get("/:codeString", function(req, res) {
   
-  var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
   var requestURL = req.params.codeString;
   
   MongoClient.connect(dbLink, function(err, db) {
@@ -113,9 +110,7 @@ function getRandomNumber() {
 
 app.get("/new/:urlToShorten(*)", function(req, res) {
   
-  
   var output = {};
-  var dbLink = "mongodb://admin_eirin:$h0rtur|@ds149763.mlab.com:49763/shorturl";
   
   MongoClient.connect(dbLink, function (err, db) {
     if (err) {
